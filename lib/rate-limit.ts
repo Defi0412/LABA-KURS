@@ -42,6 +42,9 @@ export function recordFailure(ip: string) {
   }
 }
 
-export function clearFailures(ip: string) {
+// Po poprawnym haśle oddajemy wcześniej zarezerwowaną próbę.
+export function refundAttempt(ip: string) {
   failures.delete(ip);
+  const total = activeEntry(TOTAL_KEY, Date.now());
+  if (total && total.count > 0) total.count--;
 }
